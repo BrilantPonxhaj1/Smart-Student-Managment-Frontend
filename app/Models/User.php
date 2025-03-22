@@ -2,47 +2,64 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    // Allow mass assignment for these attributes.
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
         'password',
+        'type',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    // Hide sensitive attributes when serializing.
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function getFirstName(): ?string
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->attributes['first_name'] ?? null;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->attributes['last_name'] ?? null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->attributes['username'] ?? null;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->attributes['email'] ?? null;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->attributes['phone'] ?? null;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->attributes['password'] ?? null;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->attributes['type'] ?? null;
     }
 }
