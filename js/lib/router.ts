@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../pages/Login.vue'; // Adjust the path if necessary
 import Welcome from '../pages/Welcome.vue'
+import SuperadminDashboard from '../../packages/admin/src/app/pages/Dashboard.vue';
+
 
 const routes = [
     {
@@ -16,6 +18,11 @@ const routes = [
         path: '/welcome',
         name: 'Welcome',
         component: Welcome
+    },
+    {
+        path: '/superadmin/dashboard',
+        name: 'SuperadminDashboard',
+        component: SuperadminDashboard
     }
 ];
 

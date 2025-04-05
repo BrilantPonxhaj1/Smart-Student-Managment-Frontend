@@ -1,9 +1,10 @@
 <template>
   <!-- This is your root application component -->
-  <div id="app">
+    <v-app>
+      <router-view></router-view>
+    </v-app>
     <!-- Router view will render your current page component -->
-    <router-view></router-view>
-  </div>
+
 </template>
 
 
