@@ -3,8 +3,6 @@
     <v-app>
       <router-view></router-view>
     </v-app>
-    <!-- Router view will render your current page component -->
-
 </template>
 
 
