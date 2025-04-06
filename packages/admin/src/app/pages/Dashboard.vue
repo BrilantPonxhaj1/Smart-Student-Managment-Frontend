@@ -1,30 +1,13 @@
 <script setup lang="ts">
 import SuperAdminSidebar from "../components/Sidebar.vue";
 </script>
-
-<!--<template>-->
-<!--  <div id="app">-->
-<!--    <SuperAdminSidebar />-->
-<!--    <div class="main-content">-->
-<!--      <Navbar />-->
-<!--      <div class="content">-->
-<!--        <router-view />-->
-<!--        <h1 class="h1text">SSMS - Superadmin Dashboard</h1>-->
-<!--        <v-progress-circular model-value="20"></v-progress-circular>-->
-<!--        <v-btn size="large">tesiausdhiadshooadsasduihasdiouadshiosahdaid</v-btn>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--</template>-->
-
-
 <template>
   <v-app id="app">
     <SuperAdminSidebar />
     <v-main class="main-content">
       <v-container class="content">
         <router-view />
-        <h1 class="h1text">SSMS - Superadmin Dashboard</h1>
+        <h1 class="h1text">SSMS Admin Dashboard</h1>
         <v-progress-circular model-value="50" :size="128" class="progress-spacing">DUMMY FILL</v-progress-circular>
         <v-progress-circular model-value="95" :size="128" class="progress-spacing">
           <v-btn>
