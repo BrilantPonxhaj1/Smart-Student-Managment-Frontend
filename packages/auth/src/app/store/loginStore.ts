@@ -38,8 +38,8 @@ export const useLoginStore = defineStore('login', {
         // Step 1: Generate the OAuth token first.
         const tokenResponse = await AuthService.issueToken({
           grant_type: 'password',
-          client_id: '3',                // Replace with your actual client ID
-          client_secret: '4uk0S1MW4Ael8v58TEpVFo2IE1yBFYtTIFmeJuqh', // Replace with the client_secret from the database 
+          client_id: '2',                // Replace with your actual client ID
+          client_secret: 'fbbXTHf7v63B6XQjkQtkxcsbEmeTMPEz5jQU96qZ', // Replace with the client_secret from the database
           username: email,
           password: password,
         });

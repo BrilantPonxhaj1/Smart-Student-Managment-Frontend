@@ -24,8 +24,6 @@ import SuperAdminSidebar from "../components/Sidebar.vue";
 .progress-spacing{
   margin: 20px;
 }
-
-
 #app {
   display: flex;
   min-width: 0;
