@@ -4,19 +4,7 @@ import {ref} from 'vue';
 const items = ref([
   { text: 'My Files', icon: 'mdi-folder', route: '/superadmin/dashboard' },
   { text: 'Students', icon: 'mdi-account-school',route: '/admin/students'},
-  { text: 'Shared with me', icon: 'mdi-account-multiple', route: '/welcome' },
-  { text: 'Starred', icon: 'mdi-star' },
-  { text: 'Recent', icon: 'mdi-history' },
-  { text: 'Offline', icon: 'mdi-check-circle' },
-  { text: 'Uploads', icon: 'mdi-upload' },
-  { text: 'Backups', icon: 'mdi-cloud-upload' },
-  { text: 'Dashboard', icon: 'mdi-view-dashboard' },
-  { text: 'Settings', icon: 'mdi-cog' },
-  { text: 'Notifications', icon: 'mdi-bell' },
-  { text: 'Messages', icon: 'mdi-email' },
-  { text: 'Profile', icon: 'mdi-account' },
-  { text: 'Help', icon: 'mdi-help-circle' },
-  { text: 'Logout', icon: 'mdi-logout' },
+  { text : 'Professors' , icon: 'mdi-account-tie', route:'/admin/professors'},
 ]);
 </script>
 <template>
@@ -42,9 +30,6 @@ const items = ref([
         <v-list-item-title v-text="item.text"></v-list-item-title>
       </v-list-item>
     </v-list>
-    <v-divider>
-      <v-btn color="secondary" rounded="true" variant="elevated">test</v-btn>
-    </v-divider>
   </v-navigation-drawer>
 </template>
 <style scoped>

@@ -10,9 +10,15 @@ import { createPinia } from 'pinia'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
+import { plugin, defaultConfig } from '@formkit/vue';
+import '@formkit/themes/genesis';
+
 const vuetify = createVuetify({
     components,
     directives
+})
+const formkitConfig = defaultConfig({
+    theme: 'genesis'
 })
 
 const pinia = createPinia()
@@ -21,4 +27,5 @@ axios.defaults.baseURL = 'http://localhost:8000/api'
 app.use(router)
 app.use(vuetify)
 app.use(pinia)
+app.use(plugin, formkitConfig)
 app.mount('#app')
