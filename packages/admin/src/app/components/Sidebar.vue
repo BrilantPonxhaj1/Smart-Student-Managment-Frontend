@@ -55,14 +55,14 @@ async function handleLogout() {
 
         <v-list-item-title v-text="item.text"></v-list-item-title>
       </v-list-item>
+      <!--    Logout Button   -->
+      <v-list-item @click="handleLogout" color="primary">
+        <template v-slot:prepend>
+          <v-icon icon="mdi-logout" />
+        </template>
+        <v-list-item-title>Logout</v-list-item-title>
+      </v-list-item>
     </v-list>
-<!--    Logout Button   -->
-    <v-list-item @click="handleLogout" color="primary">
-      <template v-slot:prepend>
-        <v-icon icon="mdi-logout" />
-      </template>
-      <v-list-item-title>Logout</v-list-item-title>
-    </v-list-item>
 
   </v-navigation-drawer>
 </template>
