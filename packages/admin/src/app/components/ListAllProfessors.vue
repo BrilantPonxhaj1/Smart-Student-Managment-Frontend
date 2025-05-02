@@ -79,8 +79,8 @@ async function deleteProfessor(item: Professor) {
           { title: 'First Name', value: 'first_name' },
           { title: 'Last Name',  value: 'last_name' },
           { title: 'Email',      value: 'email' },
-          { title: 'Phone',      value: 'phone' },
-          { title: 'Role',       value: 'role' },
+          { title: 'Specialization',      value: 'specialization' },
+          { title: 'Academic Role',       value: 'academic_role' },
           { text: 'Actions',    value: 'actions', sortable: false }
         ]"
           :items="professors"
