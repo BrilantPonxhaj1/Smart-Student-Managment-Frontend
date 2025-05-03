@@ -11,6 +11,9 @@ export function redirectUser() {
       case 'student':
         router.push('/student/dashboard');
         break;
+      case 'teacher' :
+        router.push('/professors/dashboard');
+        break;
       default:
         router.push('/');
         break;

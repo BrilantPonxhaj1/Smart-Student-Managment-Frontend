@@ -3,31 +3,30 @@ import {ref} from 'vue';
 import { onMounted } from "vue";
 import { useUserStore } from '../../../../auth/src/app/store/userStore';
 import { useLoginStore } from "../../../../auth/src/app/store/loginStore";
-import { useRouter } from 'vue-router';
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 
 const items = ref([
-  { text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/superadmin/dashboard' },
-  { text: 'Students', icon: 'mdi-account-school',route: '/admin/students'},
-  { text : 'Professors' , icon: 'mdi-account-tie', route:'/admin/professors'},
-  // { text : 'Logout', icon: 'mdi-logout', route: '...' },
-]);
+    {text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/professors/dashboard'},
+    {text: 'Courses HALE JOFUNK', icon: 'mdi-book-open-page-variant', route: '...'},
+    ]);
 
 const userStore = useUserStore();
 const loginStore = useLoginStore();
 const router = useRouter();
-const user = computed(() => userStore.current);
+const user  = computed(() => userStore.current);
 onMounted(() => userStore.fetchCurrent());
 
 async function handleLogout() {
-  loginStore.logout();
-  userStore.reset();
-  localStorage.removeItem('access_token');
+    loginStore.logout();
+    userStore.reset();
+    localStorage.removeItem('access_token');
 
-  await router.push({ name: 'Login' });
+    await router.push({name: 'Login'});
 }
 
 </script>
+
 <template>
   <v-navigation-drawer permanent width="300">
     <v-list>
@@ -55,17 +54,17 @@ async function handleLogout() {
 
         <v-list-item-title v-text="item.text"></v-list-item-title>
       </v-list-item>
-      <!--    Logout Button   -->
       <v-list-item @click="handleLogout" color="primary">
         <template v-slot:prepend>
           <v-icon icon="mdi-logout" />
         </template>
         <v-list-item-title>Logout</v-list-item-title>
       </v-list-item>
-    </v-list>
 
+    </v-list>
   </v-navigation-drawer>
 </template>
+
 <style scoped>
 @import "vuetify/styles";
 </style>

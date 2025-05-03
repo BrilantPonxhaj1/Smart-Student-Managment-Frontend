@@ -8,7 +8,10 @@
 
 <script setup lang="ts">
       import { onMounted } from 'vue';
+      import { useUserStore } from './packages/auth/src/app/store/userStore';
+      const userStore = useUserStore()
       onMounted(() => {
+        userStore.fetchCurrent();
         document.title = 'SSMS';
         const link = document.createElement('link');
         link.rel = 'icon';

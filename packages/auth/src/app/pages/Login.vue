@@ -2,18 +2,28 @@
 import { ref } from 'vue'
 import {useLoginStore } from '../store/loginStore'
 import {redirectUser} from '../composables/redirectUser'
+import { useUserStore } from '../../../../auth/src/app/store/userStore';
 const form = ref(false)
 const email = ref<string>('');
 const password = ref<string>('');
 const loading = ref(false)
 const loginStore = useLoginStore()
 const {redirectToDashboard} = redirectUser();
+
 const required = (value: any) => !!value || 'Field is required'
+const userStore = useUserStore();
 async function onSubmit() {
+    loading.value = true
+  try{
     const user = await loginStore.login(email.value, password.value)
     if (user) {
-        redirectToDashboard(user.type)
+      await userStore.fetchCurrent()
+      redirectToDashboard(user.type)
     }
+  }finally {
+    loading.value = false
+  }
+
 }
 </script>
 <template>
@@ -26,7 +36,7 @@ async function onSubmit() {
                 <v-text-field v-model="password" :readonly="loading" :rules="[required]" label="Password"
                     placeholder="Enter your password" clearable variant="outlined" prepend-inner-icon="mdi-lock-outline"
                     rounded></v-text-field>
-                <v-btn :disabled="!form" :loading="loading" color="black" size="large" type="submit" variant="elevated"
+                <v-btn :disabled="!form || loading" :loading="loading" color="black" size="large" type="submit" variant="elevated"
                     block rounded>
                     Sign In
                 </v-btn>
