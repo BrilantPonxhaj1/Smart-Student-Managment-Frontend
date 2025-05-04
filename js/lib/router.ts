@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Login from '../../packages/auth/src/app/pages/Login.vue'; // Adjust the path as needed
 import SuperadminDashboard from '../../packages/admin/src/app/pages/Dashboard.vue';
-import ListStudents from '../../packages/admin/src/app/pages/ListStudents.vue';
+import ListStudents from '../../packages/admin/src/app/pages/Students.vue';
 import Professors from '../../packages/admin/src/app/pages/Professors.vue';
 import ProfessorsDashboard from '../../packages/professor/src/app/pages/ProfessorDashboard.vue';
 import StudentsDashboard from '../../packages/student/src/app/pages/StudentDashboard.vue';
