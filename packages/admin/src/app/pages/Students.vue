@@ -3,7 +3,7 @@
     import { ref } from 'vue'
 
     import CreateNewStudent from "../components/CreateNewStudent.vue";
-    import ListAllStudents from "../components/ListAllStudents.vue";
+    import ListStudents from "../components/ListStudents.vue";
 
     const showForm = ref(false);
     const showList = ref(false);
@@ -32,7 +32,7 @@
             <CreateNewStudent />
           </div>
           <div v-if="showList">
-            <ListAllStudents />
+            <ListStudents />
           </div>
         </v-main>
 
