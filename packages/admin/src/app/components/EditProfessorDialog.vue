@@ -21,12 +21,12 @@
               required
           />
           <v-text-field
-              v-model="form.phone"
-              label="Phone"
+              v-model="form.specialization"
+              label="Specialization"
               required
           />
           <v-select
-              v-model="form.role"
+              v-model="form.academic_role"
               :items="['Professor', 'Teaching Assistant']"
               label="Role"
               required
@@ -79,8 +79,8 @@ const form = ref({
   first_name: '',
   last_name: '',
   email: '',
-  phone: '',
-  role: ''
+  specialization: '',
+  academic_role: ''
 });
 
 watch(professor, (newVal) => {
