@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import {FormKit} from '@formkit/vue'
 import { ref, computed } from 'vue'
-// import api from '../../../../../axios';
 
 import { useUniversities } from '../composables/useUniversities';
 import { useDepartments } from '../composables/useDepartments';
