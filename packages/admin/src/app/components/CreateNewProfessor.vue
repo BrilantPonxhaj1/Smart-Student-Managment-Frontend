@@ -1,58 +1,32 @@
 <script setup lang="ts">
-import {FormKit, reset} from '@formkit/vue'
-import { onMounted, ref } from 'vue'
-import api from '../../../../../axios';
+import {FormKit} from '@formkit/vue'
+import { ref, computed } from 'vue'
+// import api from '../../../../../axios';
 
-const submitting       = ref(false)
-const showSuccessSnack = ref(false)
-const showErrorSnack = ref(false)
-const errorMessage   = ref('')
+import { useUniversities } from '../composables/useUniversities';
+import { useDepartments } from '../composables/useDepartments';
+import { useProfessorForm } from '../composables/useProfessorForm'
 
-const universities = ref<{ label: string, value:number}[]>([])
-const departments = ref<{ label: string, value:number}[]>([])
 
-onMounted(async () => {
-  try{
-      const res = await api.get('/admin/universities')
-      universities.value = res.data.map((u:any) => ({ label: u.name, value: u.id }))
-  }catch(e) {
-    console.error('Faied loading universities', e)
-  }
-})
+const { universities } = useUniversities();
+const selectedUniv = ref<number>(0);
+const { departments } = useDepartments(selectedUniv);
+const { submitting, errorMessage, success, error, submitCreate } = useProfessorForm('create-professor');
 
-function onUniversityChange(univId: number) {
-  departments.value = []
-  if(!univId) return
-  // api.get(`/universities/${univId}/departments`)
-  api.get(`/admin/departments/${univId}`) 
-     .then(r => {
-       departments.value = r.data.map((d:any) => ({ label: d.name, value: d.id }))
-     })
-     .catch(err => console.error('dept load failed', err))
+function onUniversityChange(id: number | null | undefined) {
+  selectedUniv.value = id ?? 0;
 }
 
-async function submit(values: Record<string, any>) {
-  submitting.value = true
-  try {
-    await api.post('/admin/professors', values);
-    reset('create-professor')
-    showSuccessSnack.value = true
-  } catch (err: any) {
+const univOptions = computed(() => [
+  { label: 'Choose a university', value: null },
+  ...universities.value
+])
 
-    if (err.response?.status === 422 && err.response.data.errors) {
-      const firstField = Object.keys(err.response.data.errors)[0]
-      errorMessage.value = err.response.data.errors[firstField][0]
-    } else {
+const deptOptions = computed(() => [
+  { label: 'Choose a department', value: null },
+  ...departments.value
+])
 
-      errorMessage.value = err.response?.data?.message
-          || 'An unexpected error occurred.'
-    }
-    showErrorSnack.value = true
-
-  }finally {
-    submitting.value = false
-  }
-}
 </script>
 <template>
   <v-container fill-height fluid>
@@ -70,7 +44,7 @@ async function submit(values: Record<string, any>) {
               id="create-professor"
               :loading="submitting"
               submit-label="Submit"
-              @submit="submit"
+              @submit="submitCreate"
               class="form-container"
             >
               <!-- Personal Details Section -->
@@ -122,9 +96,9 @@ async function submit(values: Record<string, any>) {
                     type="select"
                     name="university_id"
                     label="University"
-                    :options="[{ label: 'Choose a university', value: null }, ...universities]"
+                    :options = "univOptions"
+                    @input="onUniversityChange($event)"
                     validation="required"
-                    @input="onUniversityChange($event ?? 0)"
                   />
                 </v-col>
                 <v-col cols="12" md="6">
@@ -132,7 +106,7 @@ async function submit(values: Record<string, any>) {
                     type="select"
                     name="department_id"
                     label="Department"
-                    :options="[{label:'Choose a department', value: null}, ...departments]"
+                    :options="deptOptions"
                     validation="required"
                   />
                 </v-col>
@@ -174,7 +148,7 @@ async function submit(values: Record<string, any>) {
 
               <!-- Snackbars -->
               <v-snackbar
-                v-model="showSuccessSnack"
+                v-model="success"
                 :timeout="3000"
                 top
                 color="success"
@@ -182,7 +156,7 @@ async function submit(values: Record<string, any>) {
                 Professor created successfully!
               </v-snackbar>
               <v-snackbar
-                v-model="showErrorSnack"
+                v-model="error"
                 :timeout="4000"
                 top
                 color="error"
