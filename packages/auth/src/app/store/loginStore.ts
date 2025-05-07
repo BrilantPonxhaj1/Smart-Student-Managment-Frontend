@@ -39,7 +39,7 @@ export const useLoginStore = defineStore('login', {
         const tokenResponse = await AuthService.issueToken({
           grant_type: 'password',
           client_id: '2',                // Replace with your actual client ID
-          client_secret: 'fbbXTHf7v63B6XQjkQtkxcsbEmeTMPEz5jQU96qZ', // Replace with the client_secret from the database
+          client_secret: '0U7WbYJWSgX99C8V91jNrhxem08wHJQFyqVnu8lk', // Replace with the client_secret from the database
           username: email,
           password: password,
         });

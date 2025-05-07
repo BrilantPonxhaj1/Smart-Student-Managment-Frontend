@@ -27,6 +27,10 @@ async function handleLogout() {
   await router.push({ name: 'Login' });
 }
 
+function goToProfile(){
+    router.push({name: 'Profile'})
+}
+
 </script>
 <template>
   <v-navigation-drawer permanent width="300">
@@ -40,7 +44,13 @@ async function handleLogout() {
           {{ user.email }}
         </v-list-item-subtitle>
         <template v-slot:append>
-          <v-btn icon="mdi-menu-down" size="small" variant="text"></v-btn>
+          <v-btn icon="mdi-menu-down" variant="text">
+            <v-btn
+                icon="mdi-account"
+                variant="text"
+                to="/superadmin/profile"
+            ></v-btn>
+          </v-btn>
         </template>
       </v-list-item>
     </v-list>

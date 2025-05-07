@@ -1,115 +1,164 @@
 <script setup lang="ts">
-import {FormKit, reset} from '@formkit/vue'
-import { ref } from 'vue'
-import api from '../../../../../axios';
+import {FormKit} from '@formkit/vue'
+import { ref, computed } from 'vue'
 
-const submitting       = ref(false)
-const showSuccessSnack = ref(false)
-const showErrorSnack = ref(false)
-const errorMessage   = ref('')
+import { useUniversities } from '../composables/useUniversities';
+import { useDepartments } from '../composables/useDepartments';
+import { useProfessorForm } from '../composables/useProfessorForm'
 
 
-async function submit(values: Record<string, any>) {
-  submitting.value = true
-  try {
-    await api.post('/admin/professors', values);
-    reset('create-professor')
-    showSuccessSnack.value = true
-  } catch (err: any) {
+const { universities } = useUniversities();
+const selectedUniv = ref<number>(0);
+const { departments } = useDepartments(selectedUniv);
+const { submitting, errorMessage, success, error, submitCreate } = useProfessorForm('create-professor');
 
-    if (err.response?.status === 422 && err.response.data.errors) {
-      const firstField = Object.keys(err.response.data.errors)[0]
-      errorMessage.value = err.response.data.errors[firstField][0]
-    } else {
-
-      errorMessage.value = err.response?.data?.message
-          || 'An unexpected error occurred.'
-    }
-    showErrorSnack.value = true
-
-  }finally {
-    submitting.value = false
-  }
+function onUniversityChange(id: number | null | undefined) {
+  selectedUniv.value = id ?? 0;
 }
-</script>
 
+const univOptions = computed(() => [
+  { label: 'Choose a university', value: null },
+  ...universities.value
+])
+
+const deptOptions = computed(() => [
+  { label: 'Choose a department', value: null },
+  ...departments.value
+])
+
+</script>
 <template>
   <v-container fill-height fluid>
     <v-row align="center" justify="center">
-      <v-col cols="12" md="8" lg="5">
-        <v-card class="pa-4 rounded-xl" elevation="2">
-          <v-card-title class="justify-center">
+      <v-col cols="12" md="8" lg="6">
+        <v-card class="pa-6 rounded-xl" elevation="3">
+          <v-card-title class="justify-center text-h5 font-weight-bold">
             Create New Professor
           </v-card-title>
-          <v-card-text class="d-flex align-content-center justify-center flex-column">
+          <v-divider></v-divider>
+          <v-card-text>
             <!-- FormKit form wrapper -->
             <FormKit
-                type="form"
-                id="create-professor"
-                :loading="submitting"
-                submit-label="Submit"
-                @submit="submit"
-                class="submit"
+              type="form"
+              id="create-professor"
+              :loading="submitting"
+              submit-label="Submit"
+              @submit="submitCreate"
+              class="form-container"
             >
-              <!-- First Name -->
-              <FormKit
-                  type="text"
-                  name="first_name"
-                  label="First Name"
-                  validation="required"
-              />
-              <!-- Last Name -->
-              <FormKit
-                  type="text"
-                  name="last_name"
-                  label="Last Name"
-                  validation="required"
-              />
-              <!-- Email -->
-              <FormKit
-                  type="email"
-                  name="email"
-                  label="Email"
-                  validation="required|email"
-              />
-              <!-- Phone -->
-              <FormKit
-                  type="tel"
-                  name="phone"
-                  label="Phone Number"
-                  validation="required"
-              />
-              <!-- Password -->
-              <FormKit
-                  type="password"
-                  name="password"
-                  label="Password"
-                  validation="required"
-              />
-              <!-- Role -->
-              <FormKit
-                  type="select"
-                  name="role"
-                  label="Role"
-                  :options="[
-                  { label: 'Professor', value: 'Professor' },
-                  { label: 'Teaching Assistant', value: 'Teaching Assistant' }
-                ]"
-                  validation="required"
-              />
+              <!-- Personal Details Section -->
+              <v-row>
+                <v-col cols="12">
+                  <h5 class="section-header">Personal Details</h5>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <FormKit
+                    type="text"
+                    name="first_name"
+                    label="First Name"
+                    validation="required"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <FormKit
+                    type="text"
+                    name="last_name"
+                    label="Last Name"
+                    validation="required"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <FormKit
+                    type="email"
+                    name="email"
+                    label="Email"
+                    validation="required|email"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <FormKit
+                    type="password"
+                    name="password"
+                    label="Password"
+                    validation="required"
+                  />
+                </v-col>
+              </v-row>
+
+              <!-- Academic Details Section -->
+              <v-row>
+                <v-col cols="12">
+                  <h5 class="section-header">Academic Details</h5>
+                </v-col>
+                <v-col cols="12" md="6">
+                  <FormKit
+                    type="select"
+                    name="university_id"
+                    label="University"
+                    :options = "univOptions"
+                    @input="onUniversityChange($event)"
+                    validation="required"
+                  />
+                </v-col>
+                <v-col cols="12" md="6">
+                  <FormKit
+                    type="select"
+                    name="department_id"
+                    label="Department"
+                    :options="deptOptions"
+                    validation="required"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <FormKit
+                    type="text"
+                    name="specialization"
+                    label="Specialization"
+                    validation="required"
+                  />
+                </v-col>
+                <v-col cols="12">
+                  <FormKit
+                    type="select"
+                    name="academic_role"
+                    label="Academic Role"
+                    :options="[
+                      { label: 'Professor', value: 'Professor' },
+                      { label: 'Teaching Assistant', value: 'Teaching Assistant' }
+                    ]"
+                    validation="required"
+                  />
+                </v-col>
+              </v-row>
+
+              <!-- Submit Button -->
+              <!-- <v-row justify="center" class="mt-4">
+                <v-btn
+                  color="primary"
+                  :loading="submitting"
+                  block
+                  type="submit"
+                  elevation="2"
+                  @click="submit"
+                >
+                  Submit
+                </v-btn>
+              </v-row> -->
+
+              <!-- Snackbars -->
               <v-snackbar
-                  v-model="showSuccessSnack"
-                  :timeout="3000"
-                  top
-                  color="success"
+                v-model="success"
+                :timeout="3000"
+                top
+                color="success"
               >
                 Professor created successfully!
               </v-snackbar>
               <v-snackbar
-                  v-model="showErrorSnack"
-                  :timeout="4000"
-                  top
-                  color="error"
+                v-model="error"
+                :timeout="4000"
+                top
+                color="error"
               >
                 {{ errorMessage }}
               </v-snackbar>
@@ -121,11 +170,26 @@ async function submit(values: Record<string, any>) {
   </v-container>
 </template>
 
-
 <style scoped>
-  .submit {
-    justify-content: center;
-    align-items: center;
-    align-text: center;
-  }
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-header {
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #3f51b5;
+}
+
+.submit {
+  justify-content: center;
+  align-items: center;
+}
+
+.v-btn {
+  font-weight: bold;
+}
 </style>
+
