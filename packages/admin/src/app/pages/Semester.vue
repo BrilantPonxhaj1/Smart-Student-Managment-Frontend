@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import Sidebar from '../components/Sidebar.vue';
-import CreateNewProfessor from "../components/CreateNewProfessor.vue";
-import ListAllProfessors from "../components/ListAllProfessors.vue";
+import { ref } from 'vue';
+import CreateNewSemester from '../components/CreateNewSemester.vue';
+import ListSemesters from '../components/ListSemesters.vue';
+
 
 const showForm = ref(false);
 const showList = ref(false);
@@ -20,20 +21,22 @@ function toggleList() {
 
 <template>
   <v-app id="app">
-    <Sidebar />
-    <v-main class="justify-center">
-      <v-container class="d-flex justify-lg-space-evenly mb-6 flex-direction-column">
-        <v-btn
+    <v-container>
+      <Sidebar />
+      <v-main>
+        <v-container>
+          <v-container class="d-flex justify-lg-space-evenly mb-6 flex-direction-column">
+            <v-btn
                 color="primary"
                 variant="tonal"
                 class="ma-2 px-6 py-3 text-capitalize font-weight-medium rounded-pill"
                 elevation="3"
                 prepend-icon="mdi-format-list-bulleted"
                 @click="toggleList"
-            >  
-            List all professors
-        </v-btn>
-        <v-btn
+            >
+                List all semesters
+            </v-btn>
+            <v-btn
                 color="primary"
                 variant="tonal" 
                 class="ma-2 px-6 py-3 text-capitalize font-weight-medium rounded-pill"
@@ -41,24 +44,19 @@ function toggleList() {
                 prepend-icon="mdi-plus"
                 @click="toggleForm"
             >
-            Create new professor
-          </v-btn>
-<!--        <v-btn>Delete a professor account</v-btn>-->
-      </v-container>
-      <div v-if="showForm">
-          <CreateNewProfessor />
-      </div>
-      <div v-if="showList">
-          <ListAllProfessors />
-      </div>
-    </v-main>
+                Create new semester
+            </v-btn>
+          </v-container>
+          <div v-if="showForm">
+            <CreateNewSemester />
+          </div>
+          <div v-if="showList">
+            <ListSemesters />
+          </div>
+        </v-container>
+      </v-main>
+    </v-container>
   </v-app>
 </template>
 
-<style scoped>
-#app {
-  display: flex;
-  min-width: 0;
-  overflow: hidden;
-}
-</style>
+
