@@ -10,6 +10,7 @@ const items = ref([
   { text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/superadmin/dashboard' },
   { text: 'Students', icon: 'mdi-account-school',route: '/admin/students'},
   { text : 'Professors' , icon: 'mdi-account-tie', route:'/admin/professors'},
+  { text : 'Subjects', icon: 'mdi-book-open-variant', route: '/admin/subjects'},
   // { text : 'Logout', icon: 'mdi-logout', route: '...' },
 ]);
 

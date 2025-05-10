@@ -7,6 +7,7 @@ import ProfessorsDashboard from '../../packages/professor/src/app/pages/Professo
 import StudentsDashboard from '../../packages/student/src/app/pages/StudentDashboard.vue';
 import Forbidden from '../../src/GeneralPages/Forbidden.vue';
 import AdminProfile from '../../packages/admin/src/app/pages/AdminProfile.vue'
+import Subjects from "../../packages/admin/src/app/pages/Subjects.vue";
 
 
 const routes = [
@@ -54,6 +55,12 @@ const routes = [
         name: 'AdminProfile',
         component: AdminProfile,
         meta: { requiresAuth: true, roles: ['superadmin'] }
+    },
+    {
+        path: '/admin/subjects',
+        name: 'Subjects',
+        component: Subjects,
+        meta : { requiresAuth: true, roles: ['superadmin'] }
     },
     {
         path: '/forbidden',
