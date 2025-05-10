@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSemesterStore } from '../stores/SemesterStore';
 import {computed, onMounted, ref} from 'vue';
+import EditSemesterDialog from "./EditSemesterDialog.vue";
 
 interface Semester {
     id: number;
@@ -91,10 +92,13 @@ onMounted(() => semesterStore.fetchSemesters());
       </v-data-table>
 
       </v-card-text>
-
-
-
     </v-card>
+
+  <EditSemesterDialog
+      v-model="showEditDialog"
+      :semester="selectedSemester"
+      @updated="semesterStore.fetchSemesters"
+  />
 </template>
 
 <style scoped>

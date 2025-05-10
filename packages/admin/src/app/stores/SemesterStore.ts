@@ -1,8 +1,7 @@
 import {defineStore} from 'pinia';
 import api from '../../../../../axios';
 import {ref} from 'vue';
-
-interface Semester {
+export interface Semester {
     id: number;
     name: string;
     start_date: string;
@@ -10,9 +9,8 @@ interface Semester {
     registration_deadline: string;
     description: string;
 }
-
 export const useSemesterStore = defineStore('semester', () => {
-    const semesters = ref<{ label: string; value: number }[]>([]);
+    const semesters = ref<Semester[]>([]);
     const loading = ref(false);
     const error      = ref<string | null>(null);
 

@@ -23,9 +23,8 @@ function toggleList() {
   <v-app id="app">
     <v-container>
       <Sidebar />
-      <v-main>
-        <v-container>
-          <v-container class="d-flex justify-lg-space-evenly mb-6 flex-direction-column">
+      <v-main class="justify-center">
+        <v-container class="d-flex justify-lg-space-evenly mb-6 flex-direction-column">
             <v-btn
                 color="primary"
                 variant="tonal"
@@ -46,14 +45,14 @@ function toggleList() {
             >
                 Create new semester
             </v-btn>
-          </v-container>
-          <div v-if="showForm">
+        </v-container>
+          <div v-show="showForm">
             <CreateNewSemester />
           </div>
           <div v-if="showList">
             <ListSemesters />
           </div>
-        </v-container>
+
       </v-main>
     </v-container>
   </v-app>
