@@ -1,70 +1,37 @@
-<script setup lang="ts">
-import {ref} from 'vue';
-import { onMounted } from "vue";
-import { useUserStore } from '../../../../auth/src/app/store/userStore';
-import { useLoginStore } from "../../../../auth/src/app/store/loginStore";
-import { computed } from 'vue';
-import { useRouter } from 'vue-router';
-
-const items = ref([
-    {text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/professors/dashboard'},
-    {text: 'Courses HALE JOFUNK', icon: 'mdi-book-open-page-variant', route: '...'},
-    ]);
-
-const userStore = useUserStore();
-const loginStore = useLoginStore();
-const router = useRouter();
-const user  = computed(() => userStore.current);
-onMounted(() => userStore.fetchCurrent());
-
-async function handleLogout() {
-    loginStore.logout();
-    userStore.reset();
-    localStorage.removeItem('access_token');
-
-    await router.push({name: 'Login'});
-}
-
-</script>
-
+<!-- packages/professor/src/app/components/ProfessorSidebar.vue -->
 <template>
-  <v-navigation-drawer permanent width="300">
-    <v-list>
-      <!-- it takes the page longer to load bcs of this i think we should remove it-->
-      <v-list-item v-if="user" prepend-avatar="https://cdn.vuetifyjs.com/images/john.png">
+  <!-- Plug in the shared Sidebar and project a user slot -->
+  <Sidebar :items="menuItems">
+    <template #user>
+      <v-list-item prepend-avatar="https://cdn.vuetifyjs.com/images/john.png">
         <v-list-item-title>
           {{ user.first_name }} {{ user.last_name }}
         </v-list-item-title>
         <v-list-item-subtitle>
           {{ user.email }}
         </v-list-item-subtitle>
-        <template v-slot:append>
-          <v-btn icon="mdi-menu-down" size="small" variant="text"></v-btn>
-        </template>
       </v-list-item>
-    </v-list>
-
-    <v-divider></v-divider>
-
-    <v-list :lines="false"  nav>
-      <v-list-item v-for="(item, i) in items" :key="i" :to="item.route" :value="item" color="primary">
-        <template v-slot:prepend>
-          <v-icon :icon="item.icon"></v-icon>
-        </template>
-
-        <v-list-item-title v-text="item.text"></v-list-item-title>
-      </v-list-item>
-      <v-list-item @click="handleLogout" color="primary">
-        <template v-slot:prepend>
-          <v-icon icon="mdi-logout" />
-        </template>
-        <v-list-item-title>Logout</v-list-item-title>
-      </v-list-item>
-
-    </v-list>
-  </v-navigation-drawer>
+    </template>
+  </Sidebar>
 </template>
 
+<script setup lang="ts">
+import { onMounted, computed } from 'vue'
+import Sidebar from '../../../../src/app/components/Sidebar.vue'
+import { professorMenu } from '../../../../src/app/composables/useMenu'
+import { useUserStore } from '@auth/app/store/userStore'
+
+// Fetch the logged-in professor’s profile once
+const userStore = useUserStore()
+onMounted(() => userStore.fetchCurrent())
+
+// Reactive reference to the user object
+const user = computed(() => userStore.current)
+
+// The array of links/icons for professors
+const menuItems = professorMenu
+</script>
+
 <style scoped>
-@import "vuetify/styles";
+@import 'vuetify/styles';
 </style>
