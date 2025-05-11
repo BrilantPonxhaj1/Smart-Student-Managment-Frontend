@@ -49,7 +49,7 @@ function toggleList() {
           <div v-show="showForm">
             <CreateNewSemester />
           </div>
-          <div v-if="showList">
+          <div v-show="showList">
             <ListSemesters />
           </div>
 

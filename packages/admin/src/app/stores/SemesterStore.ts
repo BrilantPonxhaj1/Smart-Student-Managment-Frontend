@@ -3,6 +3,7 @@ import api from '../../../../../axios';
 import {ref} from 'vue';
 export interface Semester {
     id: number;
+    university_id: number;
     name: string;
     start_date: string;
     end_date: string;
@@ -14,11 +15,10 @@ export const useSemesterStore = defineStore('semester', () => {
     const loading = ref(false);
     const error      = ref<string | null>(null);
 
-
     async function fetchSemesters() {
         loading.value = true;
         try {
-            const res = await api.get('/admin/semester');
+            const res = await api.get('/semesters');
             //const semesterData = res.data.data || res.data;
             //semesters.value = semesterData.map((s: Semester) => ({ label: s.name, value: s.id }));
             semesters.value = res.data.data;

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useSemesterStore } from '../stores/SemesterStore';
-import {computed, onMounted, ref} from 'vue';
+import {computed, onMounted, ref, onBeforeUnmount} from 'vue';
 import EditSemesterDialog from "./EditSemesterDialog.vue";
 
 interface Semester {
     id: number;
+    university_id: number;
     name: string;
     start_date: string;
     end_date: string;
@@ -37,6 +38,10 @@ async function deleteSemester(item: Semester) {
 }
 
 onMounted(() => semesterStore.fetchSemesters());
+
+onBeforeUnmount(() => {
+  showEditDialog.value = false;
+});
 </script>
 
 <template>
@@ -61,6 +66,7 @@ onMounted(() => semesterStore.fetchSemesters());
       v-else
       :headers="[
         {title: 'ID',         value: 'id'},
+        {title: 'University', value: 'university_id'},
         {title: 'Name',       value: 'name'},
         {title: 'Start Date', value: 'start_date'},
         {title: 'End Date',   value: 'end_date'},
@@ -97,7 +103,7 @@ onMounted(() => semesterStore.fetchSemesters());
   <EditSemesterDialog
       v-model="showEditDialog"
       :semester="selectedSemester"
-      @updated="semesterStore.fetchSemesters"
+      @saved="semesterStore.fetchSemesters"
   />
 </template>
 

@@ -1,62 +1,46 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue';
-import { useSemesterStore } from '../stores/SemesterStore';
-import type { Semester } from '../stores/SemesterStore';
+import { computed, watch, ref } from 'vue';
+import { useSemesterStore, type Semester } from '../stores/SemesterStore';
+import { useUniversities } from '../composables/useUniversities';
 
 const props = defineProps<{
-  modelValue: boolean
-  semester: Semester | null
+  modelValue: boolean;
+  semester: Semester | null;
 }>();
 
-const emit = defineEmits<{
-  (e: 'update:modelValue', v: boolean): void;
-  (e: 'updated'): void;
-}>();
+const emit = defineEmits(['update:modelValue', 'saved']);
 
-// const dialogValue = ref(props.modelValue);
+// Get universities list
+const { universities } = useUniversities();
 
+// two‑way proxy for the parent v-model
 const dialog = computed({
-  get:  () => props.modelValue,
-  set:  v => emit('update:modelValue', v)
+  get: () => props.modelValue,
+  set: v => emit('update:modelValue', v)
 });
 
-const form = ref<Partial<Semester>>({
-  name: '',
-  start_date: '',
-  end_date: '',
-  registration_deadline: '',
-  description: '',
-});
-
+const form = ref<Partial<Semester & { university_id: number }>>({});
 const submitting = ref(false);
 const semesterStore = useSemesterStore();
 
-// Watch for dialog open and fill form
-watch(() => props.modelValue, (open) => {
+// when opened, populate the form
+watch(() => props.modelValue, open => {
   if (open && props.semester) {
-    form.value = { ...props.semester }
+    form.value = { ...props.semester, university_id: (props.semester as any).university_id };
   }
-})
-
-// watch(dialogValue, (val) => {
-//   emit('update:modelValue', val);
-// });
+});
 
 function close() {
   dialog.value = false;
 }
 
 async function save() {
-  if (!props.semester) return
-  submitting.value = true
-
+  if (!props.semester) return;
+  submitting.value = true;
   try {
-    await semesterStore.updateSemester(props.semester.id, form.value)
-    emit('updated'); // to refresh list
+    await semesterStore.updateSemester(props.semester.id, form.value);
+    emit('saved');
     close();
-  } catch (e) {
-    console.error('Update failed:', e);
-    alert('Failed to update semester');
   } finally {
     submitting.value = false;
   }
@@ -69,39 +53,44 @@ async function save() {
       <v-card-title>Edit Semester</v-card-title>
       <v-card-text>
         <v-form>
+          <v-select
+            v-model="form.university_id"
+            :items="universities"
+            item-title="label"
+            item-value="value"
+            label="University"
+            required
+          ></v-select>
           <v-text-field
               v-model="form.name"
               label="Name"
               required
           />
-          <v-date-picker
+          <v-text-field
               v-model="form.start_date"
               label="Start Date"
+              type="date"
               required
           />
-          <v-date-picker
+          <v-text-field
               v-model="form.end_date"
               label="End Date"
+              type="date"
               required
           />
-
-          <v-date-picker
+          <v-text-field
               v-model="form.registration_deadline"
               label="Registration Deadline"
+              type="date"
               required
           />
-
-          <v-text-field
-              v-model="form.description"
-              label="Description"
-              required
-          />
+          <v-text-field v-model="form.description" label="Description" required />
         </v-form>
       </v-card-text>
       <v-card-actions>
-        <v-spacer />
+        <v-spacer/>
         <v-btn text @click="close">Cancel</v-btn>
-        <v-btn color="primary" @click="save" :loading="submitting" :disabled="submitting" >Save</v-btn>
+        <v-btn color="primary" @click="save" :loading="submitting">Save</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
