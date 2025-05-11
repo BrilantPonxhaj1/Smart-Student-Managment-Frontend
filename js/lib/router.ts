@@ -45,7 +45,7 @@ const routes = [
         meta : { requiresAuth: true, roles: ['teacher'] }
     },
     {
-        path: '/students/dashboard',
+        path: '/student/dashboard',
         name: 'StudentsDashboard',
         component: StudentsDashboard,
         meta : { requiresAuth: true, roles: ['student'] }
