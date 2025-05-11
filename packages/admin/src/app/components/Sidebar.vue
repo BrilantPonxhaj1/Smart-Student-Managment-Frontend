@@ -11,6 +11,7 @@ const items = ref([
   { text: 'Students', icon: 'mdi-account-school',route: '/admin/students'},
   { text : 'Professors' , icon: 'mdi-account-tie', route:'/admin/professors'},
   { text : 'Semester' , icon: 'mdi-calendar-check', route:'/superadmin/semester'},
+  { text : 'Course Offerings' , icon: 'mdi-calendar-check', route:'/superadmin/course-offerings'},
   // { text : 'Logout', icon: 'mdi-logout', route: '...' },
 ]);
 
