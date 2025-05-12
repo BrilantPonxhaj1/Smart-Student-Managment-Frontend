@@ -16,6 +16,7 @@
         <CourseOfferingCard
             :offering="off"
             @register="$emit('register-course', $event)"
+            @cancel="$emit('cancel-course', $event)"
         />
       </v-col>
     </v-row>
@@ -29,5 +30,5 @@ import CourseOfferingCard from './CourseOfferingCard.vue'
 const props = defineProps({
   offerings: { type: Array, default: () => [] }
 })
-const emit = defineEmits(['register-course'])
+const emit = defineEmits(['register-course', 'cancel-course'])
 </script>

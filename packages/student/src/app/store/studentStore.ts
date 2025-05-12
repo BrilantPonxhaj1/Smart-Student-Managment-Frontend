@@ -22,6 +22,8 @@ export interface CourseOffering {
     capacity?:        number
     enrolled_count?:  number
     enrolled?:        boolean
+    enrollment_id?:   number | null
+
 }
 
 /** ─── Store State ────────────────────────────────────────────── */
