@@ -9,8 +9,8 @@ const headers = [
   { title: 'University', key: 'university.name' },
   { title: 'Department', key: 'department.name' },
   { title: 'Subject', key: 'subject.name' },
-  { title: 'Professor', key: 'professorName' },
-  { title: 'Semester', key: 'semester.name' },
+  { title: 'Professor', key: 'professorat.name' },
+  { title: 'Semester', key: 'semester' },
   { title: 'Section', key: 'section' },
   { title: 'Schedule', key: 'schedule' },
   { title: 'Capacity', key: 'capacity' },
@@ -54,7 +54,7 @@ const getProfessorName = (item: CourseOffering): string => {
 </script>
 
 <template>
-  <v-card class="mx-auto" title="Course Offerings" subtitle="Manage course offerings">
+  <v-card class="mx-auto" title="Course Offerings" subtitle="Manage course offerings" width="100%">
     <template v-slot:append>
       <v-btn color="primary" prepend-icon="mdi-plus" :to="{ name: 'CreateCourseOffering' }">
         Add Course Offering
