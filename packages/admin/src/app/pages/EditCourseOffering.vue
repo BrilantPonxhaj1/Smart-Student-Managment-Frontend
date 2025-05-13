@@ -7,13 +7,7 @@ const router = useRouter();
 const route = useRoute();
 const courseOfferingId = Number(route.params.id);
 
-const handleSaved = () => {
-  router.push({ name: '/superadmin/course-offerings' });
-};
 
-const handleCancel = () => {
-  router.push({ name: '/superadmin/course-offerings' });
-};
 </script>
 
 <template>
@@ -36,8 +30,7 @@ const handleCancel = () => {
               <CourseOfferingForm 
                 :editMode="true"
                 :courseOfferingId="courseOfferingId"
-                @saved="handleSaved"
-                @cancel="handleCancel"
+                
               />
             </v-col>
           </v-row>

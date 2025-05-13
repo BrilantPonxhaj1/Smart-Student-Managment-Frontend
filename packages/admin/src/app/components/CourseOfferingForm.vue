@@ -47,7 +47,11 @@ const { semesters: universitySemesters } = storeToRefs(universityStore);
 const loading = ref(false);
 const formValid = ref(true);
 const submitting = ref(false);
-const showSuccessSnackbar = ref(false);
+
+
+const snackbar        = ref(false);
+const snackbarMessage = ref('');
+const snackbarColor   = ref<'success'|'error'>('success');
 
 // Create a reactive reference for the university ID
 const selectedUniversityId = computed(() => formData.university_id || 0);
@@ -156,6 +160,7 @@ const clearForm = () => {
 
 const handleSubmit = async () => {
   submitting.value = true;
+  snackbar.value = false;
   
   try {
     if (props.editMode && props.courseOfferingId) {
@@ -164,11 +169,15 @@ const handleSubmit = async () => {
       await courseOfferingStore.createCourseOffering(payloadData.value);
       clearForm(); // Clear form after successful creation
     }
-    
-    showSuccessSnackbar.value = true;
+    snackbarMessage.value = 'Course-Offering saved successfully';
+    snackbarColor.value   = 'success';
+    snackbar.value        = true;
     emit('saved');
   } catch (error) {
     console.error('Error submitting form:', error);
+    snackbarMessage.value = 'Something went wrong while saving course-offering';
+    snackbarColor.value   = 'error';
+    snackbar.value        = true;
   } finally {
     submitting.value = false;
   }
@@ -331,22 +340,13 @@ const handleCancel = () => {
       </v-card-actions>
     </v-card>
 
-    <!-- Success Snackbar -->
     <v-snackbar
-      v-model="showSuccessSnackbar"
-      color="success"
-      timeout="3000"
-    >
-      {{ editMode ? 'Course offering updated successfully!' : 'Course offering created successfully!' }}
-      
-      <template v-slot:actions>
-        <v-btn
-          variant="text"
-          @click="showSuccessSnackbar = false"
-        >
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
+    v-model="snackbar"
+    :color="snackbarColor"
+    timeout="2000"
+  >
+    {{ snackbarMessage }}
+  </v-snackbar>
+
   </div>
 </template> 
