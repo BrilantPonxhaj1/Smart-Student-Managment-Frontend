@@ -38,8 +38,8 @@ export const useLoginStore = defineStore('login', {
         // Step 1: Generate the OAuth token first.
         const tokenResponse = await AuthService.issueToken({
           grant_type: 'password',
-          client_id: '2',                // Replace with your actual client ID
-          client_secret: '0U7WbYJWSgX99C8V91jNrhxem08wHJQFyqVnu8lk', // Replace with the client_secret from the database
+          client_id:import.meta.env.VITE_PASSPORT_CLIENT_ID,
+          client_secret:import.meta.env.VITE_PASSPORT_CLIENT_SECRET,
           username: email,
           password: password,
         });
