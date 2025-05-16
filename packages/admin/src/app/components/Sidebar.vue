@@ -1,18 +1,12 @@
 <script setup lang="ts">
-import {ref} from 'vue';
 import { onMounted } from "vue";
 import { useUserStore } from '../../../../auth/src/app/store/userStore';
 import { useLoginStore } from "../../../../auth/src/app/store/loginStore";
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
+import { adminMenu } from '../../../../src/app/composables/useMenu';
 
-const items = ref([
-  { text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/superadmin/dashboard' },
-  { text: 'Students', icon: 'mdi-account-school',route: '/admin/students'},
-  { text : 'Professors' , icon: 'mdi-account-tie', route:'/admin/professors'},
-  { text: 'Universities', icon: 'mdi-school', route: '/admin/universities' },
-  // { text : 'Logout', icon: 'mdi-logout', route: '...' },
-]);
+const items = adminMenu;
 
 const userStore = useUserStore();
 const loginStore = useLoginStore();
