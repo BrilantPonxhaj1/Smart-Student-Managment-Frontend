@@ -11,6 +11,7 @@ export const useUniversityStore = defineStore('university', () => {
     const universities = ref<{ label: string; value: number }[]>([]);
     const semesters = ref<{ name: string; id: number }[]>([]);
     const loading = ref(false);
+    const submitting = ref(false);
 
     async function fetchUniversities() {
         loading.value = true;
@@ -21,6 +22,24 @@ export const useUniversityStore = defineStore('university', () => {
             loading.value = false;
         }
     }
+
+    async function createUniversity(payload: any) {
+        submitting.value = true;
+        try {
+            await api.post('/admin/universities', payload);
+        } finally {
+            submitting.value = false;
+        }
+    }
+    async function updateUniversity(id: number, payload: any) {
+        submitting.value = true;
+        try {
+            await api.put(`/admin/universities/${id}`, payload);
+        } finally {
+            submitting.value = false;
+        }
+    }
+
 
     async function fetchSemestersByUniversityId(univId: number) {
         if (!univId) return;
@@ -39,5 +58,6 @@ export const useUniversityStore = defineStore('university', () => {
         }
     }
 
-    return { universities, semesters, loading, fetchUniversities, fetchSemestersByUniversityId };
+    return { universities, submitting, universities, createUniversity, updateUniversity ,semesters, loading, fetchUniversities, fetchSemestersByUniversityId };
+
 });

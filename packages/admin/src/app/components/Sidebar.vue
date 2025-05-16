@@ -4,10 +4,9 @@ import { useUserStore } from '../../../../auth/src/app/store/userStore';
 import { useLoginStore } from "../../../../auth/src/app/store/loginStore";
 import { useRouter } from 'vue-router';
 import { computed } from 'vue';
-
 import { adminMenu } from '../../../../src/app/composables/useMenu';
-const items = adminMenu;
 
+const items = adminMenu;
 
 const userStore = useUserStore();
 const loginStore = useLoginStore();
