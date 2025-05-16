@@ -6,6 +6,7 @@ export const adminMenu = [
     { text: 'Semesters',  icon: 'mdi-calendar',          route: '/admin/semesters' },
     { text: 'Courses',    icon: 'mdi-book-open-page-variant', route: '/admin/subjects' },
     { text: 'Students',   icon: 'mdi-account',           route: '/admin/students' },
+    // { text: 'Exams',   icon: 'mdi-file-document-edit', route: '/admin/exams' },
 ]
 
 export const professorMenu = [
