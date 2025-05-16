@@ -7,7 +7,10 @@ import ProfessorsDashboard from '../../packages/professor/src/app/pages/Professo
 import StudentsDashboard from '../../packages/student/src/app/pages/StudentDashboard.vue';
 import Forbidden from '../../src/GeneralPages/Forbidden.vue';
 import AdminProfile from '../../packages/admin/src/app/pages/AdminProfile.vue'
-
+import Semester from '../../packages/admin/src/app/pages/Semester.vue';
+import CourseOfferings from '../../packages/admin/src/app/pages/CourseOffering.vue';
+import CreateCourseOffering from '../../packages/admin/src/app/pages/CreateCourseOffering.vue';
+import EditCourseOffering from '../../packages/admin/src/app/pages/EditCourseOffering.vue';
 
 const routes = [
   {
@@ -32,7 +35,7 @@ const routes = [
         meta : { requiresAuth: true, roles: ['superadmin'] }
     }, 
     {
-        path: '/admin/professors',
+        path: '/superadmin/professors',
         name: 'Professors',
         component: Professors,
         meta : { requiresAuth: true, roles: ['superadmin'] }
@@ -53,6 +56,30 @@ const routes = [
         path: '/superadmin/profile',
         name: 'AdminProfile',
         component: AdminProfile,
+        meta: { requiresAuth: true, roles: ['superadmin'] }
+    },
+    {
+        path: '/superadmin/semester',
+        name: 'Semester',
+        component: Semester,
+        meta: { requiresAuth: true, roles: ['superadmin'] }
+    },
+    {
+        path: '/superadmin/course-offerings',
+        name: 'CourseOffering',
+        component: CourseOfferings,
+        meta: { requiresAuth: true, roles: ['superadmin'] }
+    },
+    {
+        path: '/superadmin/course-offerings/create',
+        name: 'CreateCourseOffering',
+        component: CreateCourseOffering,
+        meta: { requiresAuth: true, roles: ['superadmin'] }
+    },
+    {
+        path: '/superadmin/course-offerings/:id/edit',
+        name: 'EditCourseOffering',
+        component: EditCourseOffering,
         meta: { requiresAuth: true, roles: ['superadmin'] }
     },
     {

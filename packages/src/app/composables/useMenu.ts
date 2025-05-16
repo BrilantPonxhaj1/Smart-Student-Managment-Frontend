@@ -1,11 +1,14 @@
 // src/app/composables/useMenu.ts
 
+import { route } from "ziggy-js"
+
 
 export const adminMenu = [
     { text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/superadmin/dashboard' },
-    { text: 'Semesters',  icon: 'mdi-calendar',          route: '/admin/semesters' },
-    { text: 'Courses',    icon: 'mdi-book-open-page-variant', route: '/admin/subjects' },
-    { text: 'Students',   icon: 'mdi-account',           route: '/admin/students' },
+    { text: 'Students',   icon: 'mdi-account-school',           route: '/admin/students' },
+    { text: 'Professors', icon: 'mdi-account-tie', route: '/superadmin/professors' },
+    { text: 'Semesters',  icon: 'mdi-calendar-check',          route: '/superadmin/semester' },
+    { text: 'Course Offerings',    icon: 'mdi-book-open-page-variant', route: '/superadmin/course-offerings' },
 ]
 
 export const professorMenu = [

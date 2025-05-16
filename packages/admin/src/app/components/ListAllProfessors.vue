@@ -57,7 +57,7 @@ async function deleteProfessor(item: Professor) {
 
 <template>
   <v-card class="pa-4">
-    <v-card-title class="justify-center text-h5" align="center">
+    <v-card-title class="justify-center text-h5 font-weight-bold mb-4" align="center">
       All Professors
     </v-card-title>
 
@@ -69,7 +69,9 @@ async function deleteProfessor(item: Professor) {
       <v-progress-circular
           v-else-if="loading"
           indeterminate
-          class="mx-auto"
+          class="mx-auto d-block my-6"
+          color="primary"
+          size="42"
       />
 
       <v-data-table
@@ -84,7 +86,7 @@ async function deleteProfessor(item: Professor) {
           { text: 'Actions',    value: 'actions', sortable: false }
         ]"
           :items="professors"
-          class="elevation-1"
+          class="elevation-1 rounded compact-table"
           dense
           hide-default-footer
 
@@ -93,14 +95,17 @@ async function deleteProfessor(item: Professor) {
         <!-- eslint-disable-next-line vue/valid-v-slot -->
         <template #item.actions="{ item }">
           <v-container class="justify-lg-space-evenly d-flex">
-            <v-fab icon="mdi-account-edit" variant="outlined" @click="editProfessor(item)"></v-fab>
-            <v-fab icon="mdi-trash-can" variant="outlined" @click="deleteProfessor(item)"></v-fab>
+            <v-fab icon="mdi-account-edit" variant="tonal" color="primary" @click="editProfessor(item)"></v-fab>
+            <v-fab icon="mdi-trash-can" variant="tonal" color="error" @click="deleteProfessor(item)"></v-fab>
 
           </v-container>
         </template>
 
         <template #no-data>
-          No professors found.
+          <div class="text-center pa-4">
+              <v-icon icon="mdi-calendar-blank" size="large" class="mb-2"></v-icon>
+              <div>No professors found.</div>
+          </div>
         </template>
       </v-data-table>
     </v-card-text>
@@ -114,5 +119,36 @@ async function deleteProfessor(item: Professor) {
 </template>
 
 <style scoped>
+:deep(.v-data-table) {
+    border-radius: 8px;
+}
+
+:deep(.v-data-table-header) {
+    background-color: #f5f5f5;
+}
+
+:deep(.v-data-table-header th) {
+    font-weight: 600 !important;
+    color: rgba(0, 0, 0, 0.8) !important;
+}
+
+:deep(.v-data-table-row:hover) {
+    background-color: #f9f9f9;
+}
+
+:deep(.compact-table) {
+    font-size: 0.875rem;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+:deep(.compact-table th) {
+    padding: 0 8px !important;
+    font-size: 0.875rem !important;
+}
+
+:deep(.compact-table td) {
+    padding: 0 8px !important;
+}
 
 </style>
