@@ -7,6 +7,8 @@ import ProfessorsDashboard from '../../packages/professor/src/app/pages/Professo
 import StudentsDashboard from '../../packages/student/src/app/pages/StudentDashboard.vue';
 import Forbidden from '../../src/GeneralPages/Forbidden.vue';
 import AdminProfile from '../../packages/admin/src/app/pages/AdminProfile.vue'
+
+import Subjects from "../../packages/admin/src/app/pages/Subjects.vue";
 import Semester from '../../packages/admin/src/app/pages/Semester.vue';
 import CourseOfferings from '../../packages/admin/src/app/pages/CourseOffering.vue';
 import CreateCourseOffering from '../../packages/admin/src/app/pages/CreateCourseOffering.vue';
@@ -59,6 +61,13 @@ const routes = [
         meta: { requiresAuth: true, roles: ['superadmin'] }
     },
     {
+
+        path: '/admin/subjects',
+        name: 'Subjects',
+        component: Subjects,
+        meta : { requiresAuth: true, roles: ['superadmin'] }
+    },
+    {
         path: '/superadmin/semester',
         name: 'Semester',
         component: Semester,
@@ -81,6 +90,7 @@ const routes = [
         name: 'EditCourseOffering',
         component: EditCourseOffering,
         meta: { requiresAuth: true, roles: ['superadmin'] }
+
     },
     {
         path: '/forbidden',
