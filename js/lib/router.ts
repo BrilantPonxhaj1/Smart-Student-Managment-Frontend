@@ -35,7 +35,7 @@ const routes = [
         meta : { requiresAuth: true, roles: ['superadmin'] }
     }, 
     {
-        path: '/admin/professors',
+        path: '/superadmin/professors',
         name: 'Professors',
         component: Professors,
         meta : { requiresAuth: true, roles: ['superadmin'] }

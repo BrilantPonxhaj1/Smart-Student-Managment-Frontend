@@ -6,7 +6,10 @@ import { useUniversityStore } from '../stores/UniversityStore';
 import { useDepartmentStore } from '../stores/DepartmentStore';
 import { useDepartments } from '../composables/useDepartments';
 import { storeToRefs } from 'pinia';
+import { useRouter } from 'vue-router';
 
+
+const router = useRouter();
 // Define the appropriate types for the form data
 interface FormData {
   university_id: number | null;
@@ -164,18 +167,55 @@ const handleSubmit = async () => {
   
   try {
     if (props.editMode && props.courseOfferingId) {
-      await courseOfferingStore.updateCourseOffering(props.courseOfferingId, payloadData.value);
+      try{
+        const updated = await courseOfferingStore.updateCourseOffering(props.courseOfferingId, payloadData.value);
+        if (!updated) {
+          const msg = courseOfferingStore.error || 'Failed to update course-offering';
+          throw new Error(msg);
+        }
+        clearForm(); // Clear form after successful creation
+        snackbarMessage.value = 'Course-Offering updated successfully';
+        snackbarColor.value   = 'success';
+        snackbar.value        = true;
+      } catch (updateError: any) {
+        console.error('Error updating course-offering:', updateError);
+        // Handle update-specific error
+        snackbarMessage.value = updateError?.response?.data?.message || updateError?.message || 'Failed to update course-offering';
+        snackbarColor.value   = 'error';
+        snackbar.value        = true;
+        throw updateError;
+      }
     } else {
-      await courseOfferingStore.createCourseOffering(payloadData.value);
-      clearForm(); // Clear form after successful creation
+      
+      try {
+        const created = await courseOfferingStore.createCourseOffering(payloadData.value);
+        if (!created) {
+          // store.error was set by the store; use it or fallback
+          const msg = courseOfferingStore.error || 'Failed to create course-offering';
+          throw new Error(msg);
+        }
+        clearForm();
+        snackbarMessage.value = 'Course-Offering saved successfully';
+        snackbarColor.value   = 'success';
+        snackbar.value        = true;
+      } catch (createError: any) {
+        console.error('Error creating course-offering:', createError);
+        snackbarMessage.value =
+          createError?.message ||
+          'Failed to create course-offering';
+        snackbarColor.value = 'error';
+        snackbar.value = true;
+        // rethrow if you want the outer catch to run too
+        throw createError;
+      }
     }
-    snackbarMessage.value = 'Course-Offering saved successfully';
-    snackbarColor.value   = 'success';
-    snackbar.value        = true;
+    // snackbarMessage.value = 'Course-Offering saved successfully';
+    // snackbarColor.value   = 'success';
+    // snackbar.value        = true;
     emit('saved');
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error submitting form:', error);
-    snackbarMessage.value = 'Something went wrong while saving course-offering';
+    snackbarMessage.value = error?.response?.data?.message || error?.message || 'Something went wrong while saving course-offering';
     snackbarColor.value   = 'error';
     snackbar.value        = true;
   } finally {
@@ -185,6 +225,7 @@ const handleSubmit = async () => {
 
 const handleCancel = () => {
   emit('cancel');
+  router.back();
 };
 </script>
 

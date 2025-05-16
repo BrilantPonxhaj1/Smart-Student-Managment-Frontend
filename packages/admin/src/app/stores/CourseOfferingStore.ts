@@ -83,7 +83,7 @@ export const useCourseOfferingStore = defineStore('courseOffering', () => {
         } catch (e: any) {
             console.error('Create failed', e);
             error.value = e.response?.data?.message || e.message;
-            return null;
+            throw e;
         } finally {
             loading.value = false;
         }
@@ -99,7 +99,7 @@ export const useCourseOfferingStore = defineStore('courseOffering', () => {
         } catch (e: any) {
             console.error('Update failed', e);
             error.value = e.response?.data?.message || e.message;
-            return null;
+            throw e;
         } finally {
             loading.value = false;
         }

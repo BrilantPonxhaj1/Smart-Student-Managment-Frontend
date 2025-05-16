@@ -9,7 +9,7 @@ const headers = [
   { title: 'University', key: 'university.name' },
   { title: 'Department', key: 'department.name' },
   { title: 'Subject', key: 'subject.name' },
-  { title: 'Professor', key: 'professorat.name' },
+  { title: 'Professor', key: 'professors.name' },
   { title: 'Semester', key: 'semester' },
   { title: 'Section', key: 'section' },
   { title: 'Schedule', key: 'schedule' },

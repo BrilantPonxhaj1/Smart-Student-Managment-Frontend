@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, watch, ref } from 'vue';
 import { useSemesterStore, type Semester } from '../stores/SemesterStore';
-import { useUniversities } from '../composables/useUniversities';
+import { useUnis } from '../composables/useUniversities';
 
 const props = defineProps<{
   modelValue: boolean;
@@ -11,7 +11,7 @@ const props = defineProps<{
 const emit = defineEmits(['update:modelValue', 'saved']);
 
 // Get universities list
-const { universities } = useUniversities();
+const { unis:universities } = useUnis();
 
 // two‑way proxy for the parent v-model
 const dialog = computed({
@@ -37,10 +37,21 @@ function close() {
 async function save() {
   if (!props.semester) return;
   submitting.value = true;
+
+
+  const payload = {
+    name:                     form.value.name,
+    start_date:               form.value.start_date,
+    end_date:                 form.value.end_date,
+    registration_deadline:    form.value.registration_deadline,
+    description:              form.value.description,
+  };
   try {
-    await semesterStore.updateSemester(props.semester.id, form.value);
+    await semesterStore.updateSemester(props.semester.id, payload);
     emit('saved');
     close();
+  } catch (error) {
+    console.error('Error updating semester:', error);
   } finally {
     submitting.value = false;
   }
@@ -53,14 +64,6 @@ async function save() {
       <v-card-title>Edit Semester</v-card-title>
       <v-card-text>
         <v-form>
-          <v-select
-            v-model="form.university_id"
-            :items="universities"
-            item-title="label"
-            item-value="value"
-            label="University"
-            required
-          ></v-select>
           <v-text-field
               v-model="form.name"
               label="Name"

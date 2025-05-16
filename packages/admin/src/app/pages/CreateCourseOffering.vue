@@ -6,11 +6,11 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const handleSaved = () => {
-  router.push({ name: '/superadmin/course-offerings' });
+  router.back();
 };
 
 const handleCancel = () => {
-  router.push({ name: '/superadmin/course-offerings' });
+  router.back();
 };
 </script>
 

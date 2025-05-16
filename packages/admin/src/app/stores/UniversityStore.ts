@@ -2,6 +2,11 @@ import { defineStore } from 'pinia';
 import api from '../../../../../axios';
 import {ref} from "vue";
 
+export interface University {
+    id:   number;
+    name: string;
+  }
+
 export const useUniversityStore = defineStore('university', () => {
     const universities = ref<{ label: string; value: number }[]>([]);
     const semesters = ref<{ name: string; id: number }[]>([]);
