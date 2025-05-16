@@ -2,8 +2,8 @@
 import { storeToRefs } from 'pinia';
 
 import { reset } from '@formkit/vue';
-import { University, useUniversityStore } from '../stores/UniversityStore';
-import { computed, watch } from 'vue';
+import { useUniversityStore } from '../stores/UniversityStore';
+import { watch } from 'vue';
 import { ref } from 'vue';
 
 export function useUniversities(formId: string) {
@@ -51,8 +51,6 @@ export function useUniversities(formId: string) {
         submitCreateUniversity,
         submitEditUniversity
     };
-}
-    return { universities };
 }
 
 export function useUnis() {
