@@ -24,7 +24,7 @@ async function fetchUniversities1() {
   loading.value = true;
   error.value = null;
   try {
-    const res = await api.get('/admin/universities');
+    const res = await api.get('/admin/allUniversities');
     universities.value = res.data;
   } catch (e: any) {
     console.error(e);
