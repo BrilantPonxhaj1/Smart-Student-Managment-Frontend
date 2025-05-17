@@ -1,26 +1,29 @@
 // import { onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
-import { reset } from '@formkit/vue';
 import { useUniversityStore } from '../stores/UniversityStore';
 import { watch } from 'vue';
 import { ref } from 'vue';
 
-export function useUniversities(formId: string) {
+export function useUniversities() {
     const uniStore = useUniversityStore();
     const { submitting, createUniversity, updateUniversity } = useUniversityStore();
     const errorMessage = ref('');
     const success = ref(false);
     const error = ref(false);
     const {universities} = storeToRefs(uniStore)
-    if (!universities.value.length) {
+    const isValidUniversity = (u: any) =>
+        typeof u.value === 'number' && typeof u.label === 'string';
+
+    const needsRefetch = !universities.value.length || universities.value.some(u => !isValidUniversity(u));
+
+    if (needsRefetch) {
         uniStore.fetchUniversities();
     }
 
     async function submitCreateUniversity(values: Record<string, any>) {
         try {
             await createUniversity(values);
-            reset(formId);
             success.value = true;
         } catch (err: unknown) {
             const e = err as any;
@@ -63,6 +66,6 @@ export function useUnis() {
       { immediate: true }
     );
   
-    // universities is already Array<{ label: string; value: number }>
+    // universities are already Array<{ label: string; value: number }>
     return { unis: universities };
   }
