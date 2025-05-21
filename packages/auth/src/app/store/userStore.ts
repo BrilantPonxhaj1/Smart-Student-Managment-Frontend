@@ -8,7 +8,7 @@ export const useUserStore = defineStore(
 
     // 1) storeSetup function returns state + actions
     () => {
-        const current = ref<null | { first_name: string; last_name: string; email: string; type: string }>(null)
+        const current = ref<null | { first_name: string; last_name: string; email: string; type: string; id: number }>(null)
 
         async function fetchCurrent() {
             try {
