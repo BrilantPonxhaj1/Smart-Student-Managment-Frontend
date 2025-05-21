@@ -52,9 +52,6 @@ export function useUniversities(formId: string) {
         submitEditUniversity
     };
 }
-    return { universities };
-}
-
 export function useUnis() {
     const uniStore = useUniversityStore();
     const { universities } = storeToRefs(uniStore);

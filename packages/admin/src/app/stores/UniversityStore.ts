@@ -58,6 +58,6 @@ export const useUniversityStore = defineStore('university', () => {
         }
     }
 
-    return { universities, submitting, universities, createUniversity, updateUniversity ,semesters, loading, fetchUniversities, fetchSemestersByUniversityId };
+    return { universities, submitting, createUniversity, updateUniversity ,semesters, loading, fetchUniversities, fetchSemestersByUniversityId };
 
 });
