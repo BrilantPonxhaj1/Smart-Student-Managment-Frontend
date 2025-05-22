@@ -10,25 +10,56 @@ export const useAssignmentStore = defineStore('assignments', {
         successMessage: '',
     }),
     actions: {
+        // async fetchOfferings(professorId: number) {
+        //     this.loading = true
+        //     this.errorMessage = ''
+        //     this.successMessage = ''
+        //     try {
+        //         const { getCourseOfferings } = useAssignments()
+        //         const data = await getCourseOfferings(professorId)
+        //
+        //         this.offerings = data.map(off => ({
+        //             ...off,
+        //             assignments: off.assignments ?? [],
+        //         }))
+        //     } catch (e: any) {
+        //         this.errorMessage = e.message || 'Failed to load offerings'
+        //     } finally {
+        //         this.loading = false
+        //     }
+        // },
+
+
         async fetchOfferings(professorId: number) {
             this.loading = true
             this.errorMessage = ''
             this.successMessage = ''
-            try {
-                const { getCourseOfferings } = useAssignments()
-                const data = await getCourseOfferings(professorId)
 
-                this.offerings = data.map(off => ({
+            try{
+               const { getCourseOfferings, getAssignments } = useAssignments()
+                const [offeringsData, allAssignments] = await Promise.all([
+                    getCourseOfferings(professorId),
+                    getAssignments(),
+                ])
+                //grupim
+                const byOffering: Record<number, Assignment[]> = {}
+                allAssignments.forEach(a => {
+                    if (!byOffering[a.course_offering_id]) {
+                        byOffering[a.course_offering_id] = []
+                    }
+                    byOffering[a.course_offering_id].push(a)
+                })
+                //mergei
+                this.offerings = offeringsData.map(off => ({
                     ...off,
-                    assignments: off.assignments ?? [],
+                    assignments: byOffering[off.id] || [],
                 }))
-            } catch (e: any) {
+            }catch (e: any) {
                 this.errorMessage = e.message || 'Failed to load offerings'
-            } finally {
+            }finally {
                 this.loading = false
             }
         },
-
         async addAssignment(courseOfferingId: number, payload: Partial<Assignment>): Promise<void> {
             // const { createAssignment } = useAssignments()
             // const newA = await createAssignment({ ...payload, course_offering_id: courseOfferingId })
