@@ -61,7 +61,7 @@ const { universities } = useUniversities();
 const selectedUniv = ref<number>(props.subject?.university_id || 0);
 const { departments } = useDepartments(selectedUniv);
 
-const subjectTypes = ['Core', 'Elective'];
+const subjectTypes = ['core', 'elective'];
 
 // Reset departments when university changes
 function onUniversityChange(newUniversityId: number) {

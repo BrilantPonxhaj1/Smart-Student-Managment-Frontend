@@ -95,7 +95,7 @@ onMounted(fetchAllSubjects);
             <v-container class="d-flex align-center">
               <v-fab
                   class="mr-2"
-                  icon="mdi-book-edit"
+                  icon="mdi-square-edit-outline"
                   variant="outlined"
                   @click="handleEditSubject(item)"
               />
