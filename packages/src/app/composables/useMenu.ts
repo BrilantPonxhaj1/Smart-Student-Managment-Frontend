@@ -13,6 +13,7 @@ export const professorMenu = [
     { text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/professors/dashboard' },
     { text: 'Calendar',  icon: 'mdi-calendar',        route: '/professors/calendar' },
     { text: 'Courses',   icon: 'mdi-book-open-page-variant', route: '/professors/courses' },
+    { text: 'Exams',   icon: 'mdi-file-document-edit', route: '/professors/exams' },
 ]
 
 export const studentMenu = [

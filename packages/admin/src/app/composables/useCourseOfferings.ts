@@ -27,14 +27,15 @@ export function useCourseOfferings() {
   const universityStore = useUniversityStore();
   const departmentStore = useDepartmentStore();
   const semesterStore = useSemesterStore();
-  
+
   const universities = computed(() => universityStore.universities);
   const semesters = computed(() => semesterStore.semesters);
   
   const departments = ref([]);
   const subjects = ref([]);
   const professors = ref<Professor[]>([]);
-  
+  const professorCourseOfferings = ref([]);
+
   const formData = reactive<CourseOfferingFormData>({
     university_id: null,
     department_id: null,
@@ -82,6 +83,16 @@ export function useCourseOfferings() {
       console.error('Error fetching subjects:', error);
     }
   }
+
+  //Fetch professors course offerings
+  async function fetchProfessorCourseOfferings(professorId: number) {
+    try {
+      const res = await api.get(`/professor/course-offerings/${professorId}`);
+      professorCourseOfferings.value = res.data.data;
+    } catch (e: any) {
+      console.error('Fetch failed', e);
+    }
+  }
   
   // Reset form data
   function resetForm() {
@@ -106,6 +117,8 @@ export function useCourseOfferings() {
     fetchDepartmentsByUniversity,
     fetchSubjectsByDepartment,
     fetchProfessors,
-    resetForm
+    resetForm,
+    professorCourseOfferings,
+    fetchProfessorCourseOfferings
   };
 } 
