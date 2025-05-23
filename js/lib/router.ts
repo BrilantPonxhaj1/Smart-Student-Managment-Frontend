@@ -18,6 +18,10 @@ import EditCourseOffering from '../../packages/admin/src/app/pages/EditCourseOff
 import ProfessorAppointments from "../../packages/professor/src/app/pages/ProfessorAppointments.vue";
 import StudentAppointments from "../../packages/student/src/app/pages/StudentAppointments.vue";
 
+import Assignments from "../../packages/professor/src/app/pages/Assignments.vue";
+import Exam from "../../packages/professor/src/app/pages/Exam.vue";
+
+
 const routes = [
   {
     path: '/',
@@ -122,6 +126,18 @@ const routes = [
         component: StudentAppointments,
         meta: { requiresAuth: true, roles: ['student'] }
 
+    },
+    {
+        path:   '/professors/assignments',
+        name:   'Assignments',
+        component: Assignments,
+        meta: {requiresAuth: true, roles: ['teacher'] }
+    },
+    {
+        path: '/professors/exams',
+        name: 'Exams',
+        component: Exam,
+        meta: { requiresAuth: true, roles: ['teacher'] }
     },
     {
         path: '/forbidden',
