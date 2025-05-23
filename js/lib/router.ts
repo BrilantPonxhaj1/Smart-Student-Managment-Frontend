@@ -14,8 +14,13 @@ import Semester from '../../packages/admin/src/app/pages/Semester.vue';
 import CourseOfferings from '../../packages/admin/src/app/pages/CourseOffering.vue';
 import CreateCourseOffering from '../../packages/admin/src/app/pages/CreateCourseOffering.vue';
 import EditCourseOffering from '../../packages/admin/src/app/pages/EditCourseOffering.vue';
+// import Exam from "../../packages/professor/src/app/pages/Exam.vue";
+import ProfessorAppointments from "../../packages/professor/src/app/pages/ProfessorAppointments.vue";
+import StudentAppointments from "../../packages/student/src/app/pages/StudentAppointments.vue";
+
 import Assignments from "../../packages/professor/src/app/pages/Assignments.vue";
 import Exam from "../../packages/professor/src/app/pages/Exam.vue";
+
 
 const routes = [
   {
@@ -98,6 +103,28 @@ const routes = [
         name: 'EditCourseOffering',
         component: EditCourseOffering,
         meta: { requiresAuth: true, roles: ['superadmin'] }
+
+    },
+
+    // {
+    //     path: '/professors/exams',
+    //     name: 'Exams',
+    //     component: Exam,
+    //     meta: { requiresAuth: true, roles: ['teacher'] }
+    //
+    // },
+    {
+        path: '/professors/appointments',
+        name: 'ProfessorAppointments',
+        component: ProfessorAppointments,
+        meta: { requiresAuth: true, roles: ['teacher'] }
+
+    },
+    {
+        path: '/student/appointments',
+        name: 'StudentAppointments',
+        component: StudentAppointments,
+        meta: { requiresAuth: true, roles: ['student'] }
 
     },
     {

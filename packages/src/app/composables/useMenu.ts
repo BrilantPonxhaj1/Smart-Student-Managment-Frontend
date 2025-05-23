@@ -14,6 +14,8 @@ export const professorMenu = [
     { text: 'Exams',   icon: 'mdi-file-document-edit', route: '/professors/exams' },
     { text: 'Assignments', icon: 'mdi-clipboard-text', route: '/professors/assignments' },
     { text: 'Courses',   icon: 'mdi-book-open-page-variant', route: '/professors/courses' },
+    { text: 'Exams',   icon: 'mdi-file-document-edit', route: '/professors/exams' },
+    { text: 'Appointments',   icon: 'mdi-calendar-clock', route: '/professors/appointments' },
 ]
 
 export const studentMenu = [
@@ -21,4 +23,5 @@ export const studentMenu = [
     { text: 'Semesters', icon: 'mdi-calendar',        route: '/student/semesters' },
     { text: 'Courses',   icon: 'mdi-book-open-page-variant', route: '/student/courses' },
     { text: 'Profile',   icon: 'mdi-account',           route: '/student/profile' },
+    { text: 'Appointments',   icon: 'mdi-calendar-clock', route: '/student/appointments' },
 ]
