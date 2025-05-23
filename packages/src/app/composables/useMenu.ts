@@ -11,10 +11,9 @@ export const adminMenu = [
 
 export const professorMenu = [
     { text: 'Dashboard', icon: 'mdi-view-dashboard', route: '/professors/dashboard' },
-    { text: 'Calendar',  icon: 'mdi-calendar',        route: '/professors/calendar' },
-    { text: 'Courses',   icon: 'mdi-book-open-page-variant', route: '/professors/courses' },
-    { text: 'Assignments', icon: 'mdi-clipboard-text', route: '/professors/assignments' },
     { text: 'Exams',   icon: 'mdi-file-document-edit', route: '/professors/exams' },
+    { text: 'Assignments', icon: 'mdi-clipboard-text', route: '/professors/assignments' },
+    { text: 'Courses',   icon: 'mdi-book-open-page-variant', route: '/professors/courses' },
 ]
 
 export const studentMenu = [
