@@ -14,6 +14,7 @@ export const professorMenu = [
     { text: 'Calendar',  icon: 'mdi-calendar',        route: '/professors/calendar' },
     { text: 'Courses',   icon: 'mdi-book-open-page-variant', route: '/professors/courses' },
     { text: 'Assignments', icon: 'mdi-clipboard-text', route: '/professors/assignments' },
+    { text: 'Exams',   icon: 'mdi-file-document-edit', route: '/professors/exams' },
 ]
 
 export const studentMenu = [
