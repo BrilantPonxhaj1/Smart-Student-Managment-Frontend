@@ -14,6 +14,7 @@ import Semester from '../../packages/admin/src/app/pages/Semester.vue';
 import CourseOfferings from '../../packages/admin/src/app/pages/CourseOffering.vue';
 import CreateCourseOffering from '../../packages/admin/src/app/pages/CreateCourseOffering.vue';
 import EditCourseOffering from '../../packages/admin/src/app/pages/EditCourseOffering.vue';
+import Assignments from "../../packages/professor/src/app/pages/Assignments.vue";
 import Exam from "../../packages/professor/src/app/pages/Exam.vue";
 
 const routes = [
@@ -100,11 +101,16 @@ const routes = [
 
     },
     {
+        path:   '/professors/assignments',
+        name:   'Assignments',
+        component: Assignments,
+        meta: {requiresAuth: true, roles: ['teacher'] }
+    },
+    {
         path: '/professors/exams',
         name: 'Exams',
         component: Exam,
         meta: { requiresAuth: true, roles: ['teacher'] }
-
     },
     {
         path: '/forbidden',
