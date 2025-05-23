@@ -72,16 +72,23 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import { useAppointments } from '../../../../professor/src/app/composables/useAppointments';
-import { useDepartments } from '../../../../admin/src/app/composables/useDepartments';
 import { useUserStore } from '../../../../auth/src/app/store/userStore';
+import api from '../../../../../axios';
 
-const { submitting, success, error, errorMessage, submitCreate } = useAppointments('create-appointment');
+const {
+  submitting,
+  fetchProfessors,
+  submitCreate,
+  success,
+  errorMessage
+} = useAppointments('create-appointment');
+const userStore = useUserStore();
+
 const createFormRef = ref();
 const formValid = ref(true);
 const showErrorSnackbar = ref(false);
-
 const todaysDate = new Date().toISOString().split('T')[0];
 
 const form = ref({
@@ -93,57 +100,65 @@ const form = ref({
   notes: ''
 });
 
-const rules = {
-  required: (v: any) => !!v || 'This field is required'
-};
+const rules = { required: (v: any) => !!v || 'This field is required' };
 
-// Get user info
-const userStore = useUserStore();
-const user = ref<any>(null);
-const universityId = ref<number | null>(null);
-const departmentId = ref<number | null>(null);
+const professors = ref([]);
+const studentData = ref<any>(null);
+const professorOptions = computed(() =>
+    professors.value.map((p: any) => ({
+      label: `${p.first_name ?? ''} ${p.last_name ?? ''} (${p.email ?? ''})`,
+      value: p.id
+    }))
+);
 
-// Use department composable
-const { professors, fetchProfessors } = useDepartments(universityId);
-const professorOptions = computed(() => professors.value);
-
+// Fetch initial data
 onMounted(async () => {
-  await userStore.fetchCurrent();
-  user.value = userStore.current;
+  try {
+    await userStore.fetchCurrent();
+    const studentRes = await api.get('/student/getStudentByUser');
+    studentData.value = studentRes.data.data;
 
-  // You can adjust these if your API returns them differently
-  universityId.value = user.value?.universityId;
-  departmentId.value = user.value?.department_id;
-  console.log("University: universityId");
-  console.log("Department: departmentId");
-  if (departmentId.value) {
-    await fetchProfessors(departmentId.value);
+    professors.value = await fetchProfessors();
+  } catch (e) {
+    console.error('Failed to load initial data:', e);
+    errorMessage.value = 'Unable to load data.';
+    showErrorSnackbar.value = true;
   }
 });
 
+// Submit function
 async function save() {
   const valid = await createFormRef.value?.validate();
   if (!valid) {
-    error.value = true;
-    errorMessage.value = 'Please correct the highlighted fields.';
     showErrorSnackbar.value = true;
+    errorMessage.value = 'Please correct the highlighted fields.';
+    return;
+  }
+
+  if (!studentData.value || !userStore.current?.id) {
+    showErrorSnackbar.value = true;
+    errorMessage.value = 'User or student data not loaded.';
     return;
   }
 
   const appointment_time = `${form.value.date} ${form.value.time || '00:00'}`;
-
   const payload = {
     professor_profile_id: form.value.professor_profile_id,
     appointment_time,
     location: form.value.location,
     purpose: form.value.purpose,
-    notes: form.value.notes?.trim() || null
+    notes: form.value.notes?.trim() || null,
+    university_id: studentData.value.university_id,
+    department_id: studentData.value.department_id,
+    student_profile_id: studentData.value.id,
+    requested_by: userStore.current.id,
+    status: 'scheduled'
   };
 
   try {
-    error.value = false;
     await submitCreate(payload);
 
+    // Reset form
     form.value = {
       professor_profile_id: null,
       date: '',
@@ -153,8 +168,9 @@ async function save() {
       notes: ''
     };
 
+    await nextTick();
     createFormRef.value?.resetValidation();
-  } catch (e) {
+  } catch {
     showErrorSnackbar.value = true;
   }
 }

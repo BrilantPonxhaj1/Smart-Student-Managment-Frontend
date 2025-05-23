@@ -1,9 +1,9 @@
-import { ref } from 'vue';
-import { useAppointmentStore } from '../store/AppointmentStore';
-import { reset } from '@formkit/vue';
+import {ref} from 'vue';
+import {useAppointmentStore} from '../store/AppointmentStore';
+import {reset} from '@formkit/vue';
 
 export function useAppointments(formId: string) {
-    const { submitting, createAppointment, updateAppointment } = useAppointmentStore();
+    const { submitting, createAppointment, updateAppointment, fetchProfessorsByStudentDept } = useAppointmentStore();
     const errorMessage = ref('');
     const success = ref(false);
     const error = ref(false);
@@ -11,8 +11,8 @@ export function useAppointments(formId: string) {
     async function submitCreate(values: Record<string, any>) {
         try {
             await createAppointment(values);
-            reset(formId);
             success.value = true;
+            reset(formId);
         } catch (err: any) {
             errorMessage.value = err.response?.data?.message || 'Unexpected error';
             error.value = true;
@@ -28,6 +28,14 @@ export function useAppointments(formId: string) {
             error.value = true;
         }
     }
+    async function fetchProfessors(){
+        try {
+            return await fetchProfessorsByStudentDept();
+        } catch (err: any) {
+            errorMessage.value = err.response?.data?.message || 'Unexpected error';
+            error.value = true;
+        }
+    }
 
-    return { submitting, errorMessage, success, error, submitCreate, submitEdit };
+    return { submitting, errorMessage, success, error, submitCreate, submitEdit, fetchProfessors };
 }

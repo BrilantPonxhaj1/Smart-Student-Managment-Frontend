@@ -111,14 +111,14 @@ const routes = [
     // },
     {
         path: '/professors/appointments',
-        name: 'Appointments',
+        name: 'ProfessorAppointments',
         component: ProfessorAppointments,
         meta: { requiresAuth: true, roles: ['teacher'] }
 
     },
     {
         path: '/student/appointments',
-        name: 'Appointments',
+        name: 'StudentAppointments',
         component: StudentAppointments,
         meta: { requiresAuth: true, roles: ['student'] }
 

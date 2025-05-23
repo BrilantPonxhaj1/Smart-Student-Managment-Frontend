@@ -14,7 +14,7 @@ export function useDepartments(selectedUnivId: Ref<number>) {
         { immediate: true }
     );
 
-    async function fetchProfessors(deptId: number) {
+    async function fetchProfessorsByDeptId(deptId: number) {
         await store.fetchProfessorsOfDepartment(deptId);
     }
 
@@ -22,6 +22,6 @@ export function useDepartments(selectedUnivId: Ref<number>) {
         departments,
         professors,
         loading,
-        fetchProfessors
+        fetchProfessorsByDeptId
     };
 }

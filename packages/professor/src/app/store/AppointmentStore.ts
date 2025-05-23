@@ -23,6 +23,11 @@ export const useAppointmentStore = defineStore('appointment', () => {
         }
     }
 
-    return { submitting, createAppointment, updateAppointment };
+    async function fetchProfessorsByStudentDept() {
+        const res = await api.get('/student/professors');
+        return res.data.data;
+    }
+
+    return { submitting, createAppointment, updateAppointment, fetchProfessorsByStudentDept };
 });
 
